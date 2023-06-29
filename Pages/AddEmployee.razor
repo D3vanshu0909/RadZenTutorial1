@@ -1,0 +1,113 @@
+@page "/add-employee"
+
+@attribute [Authorize(Roles="Admin")]
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject ContextMenuService ContextMenuService
+@inject TooltipService TooltipService
+@inject NotificationService NotificationService
+
+@inject BlazorEmployeesService BlazorEmployeesService
+
+<PageTitle>Add Employee</PageTitle>
+    <RadzenColumn SizeMD=12>
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save Employee</RadzenAlert>
+        <RadzenTemplateForm TItem="RadZenTutorial1.Models.BlazorEmployees.Employee" Data="@employee" Visible="@(employee != null)" Submit="@FormSubmit">
+          <RadzenStack>
+            <RadzenFormField Text="Employee Id" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@employee.EmployeeId" Name="EmployeeId" />
+                  </ChildContent>    
+                  <Helper>
+                    <RadzenRequiredValidator Component="EmployeeId" Text="EmployeeId is required" />
+                  </Helper>
+            </RadzenFormField>
+            <RadzenFormField Text="First Name" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@employee.FirstName" Name="FirstName" />
+                  </ChildContent>    
+                  <Helper>
+                    <RadzenRequiredValidator Component="FirstName" Text="FirstName is required" />
+                  </Helper>
+            </RadzenFormField>
+            <RadzenFormField Text="Last Name" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@employee.LastName" Name="LastName" />
+                  </ChildContent>    
+                  <Helper>
+                    <RadzenRequiredValidator Component="LastName" Text="LastName is required" />
+                  </Helper>
+            </RadzenFormField>
+            <RadzenFormField Text="Email" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@employee.Email" Name="Email" />
+              </ChildContent>
+            </RadzenFormField>
+            <RadzenFormField Text="Date Of Birth" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@employee.DateOfBirth" Name="DateOfBirth" />
+                  </ChildContent>    
+                  <Helper>
+                    <RadzenRequiredValidator Component="DateOfBirth" Text="DateOfBirth is required" />
+                  </Helper>
+            </RadzenFormField>
+            <RadzenFormField Text="Gender" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@employee.Gender" Name="Gender" />
+                  </ChildContent>    
+                  <Helper>
+                    <RadzenRequiredValidator Component="Gender" Text="Gender is required" />
+                  </Helper>
+            </RadzenFormField>
+            <RadzenFormField Text="Photo Path" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@employee.PhotoPath" Name="PhotoPath" />
+              </ChildContent>
+            </RadzenFormField>
+            <RadzenFormField Text="Department" Variant="Variant.Filled">
+                  <ChildContent>
+                    <RadzenDropDown Data="@departmentsForDepartmentId" TextProperty="DepartmentName" ValueProperty="DepartmentId" AllowClear=true
+                          style="display: block; width: 100%" @bind-Value="@employee.DepartmentId" Name="DepartmentId"
+                           />
+              </ChildContent>
+            </RadzenFormField>
+          </RadzenStack>
+          <RadzenStack style="margin-top:1rem;" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+          </RadzenStack>
+        </RadzenTemplateForm>
+    </RadzenColumn>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        employee = new RadZenTutorial1.Models.BlazorEmployees.Employee();
+
+        departmentsForDepartmentId = await BlazorEmployeesService.GetDepartments();
+    }
+    protected bool errorVisible;
+    protected RadZenTutorial1.Models.BlazorEmployees.Employee employee;
+
+    protected IEnumerable<RadZenTutorial1.Models.BlazorEmployees.Department> departmentsForDepartmentId;
+
+    protected async Task FormSubmit()
+    {
+        try
+        {
+            await BlazorEmployeesService.CreateEmployee(employee);
+            NavigationManager.NavigateTo("employees");
+        }
+        catch (Exception ex)
+        {
+            errorVisible = true;
+        }
+    }
+
+    protected async Task CancelButtonClick(MouseEventArgs args)
+    {
+        NavigationManager.NavigateTo("employees");
+    }
+}
