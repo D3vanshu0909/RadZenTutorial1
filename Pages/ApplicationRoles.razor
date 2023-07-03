@@ -1,5 +1,5 @@
 @page "/application-roles"
-@attribute [Authorize(Roles="Admin")]
+@attribute [Authorize(Roles = "Admin")]
 
 <PageTitle>Roles</PageTitle>
 <RadzenStack>
@@ -16,7 +16,7 @@
     <RadzenRow>
         <RadzenColumn SizeMD="12">
             <RadzenAlert Size="AlertSize.Large" Shade="Shade.Light" AlertStyle="AlertStyle.Danger" Variant="Variant.Flat" Title="Cannot delete role" Visible="@errorVisible">@error</RadzenAlert>
-            <RadzenDataGrid @ref="grid0" AllowFiltering="true" AllowPaging="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30}) AllowSorting="true" Data="@roles" TItem="RadZenTutorial1.Models.ApplicationRole">
+            <RadzenDataGrid @ref="grid0" AllowFiltering="false" AllowPaging="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30}) AllowSorting="true" Data="@roles" TItem="RadZenTutorial1.Models.ApplicationRole" AllowAlternatingRows="true" AllowPickAllColumns="false" AllowVirtualization="false">
                 <Columns>
                     <RadzenDataGridColumn TItem="RadZenTutorial1.Models.ApplicationRole" Property="Name" Title="Name" />
                     <RadzenDataGridColumn TItem="RadZenTutorial1.Models.ApplicationRole" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">

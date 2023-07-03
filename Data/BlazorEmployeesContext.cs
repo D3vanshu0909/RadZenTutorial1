@@ -39,10 +39,9 @@ namespace RadZenTutorial1.Data
 
         public DbSet<RadZenTutorial1.Models.BlazorEmployees.Employee> Employees { get; set; }
 
-        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
-        {
-            configurationBuilder.Conventions.Add(_ => new BlankTriggerAddingConvention());
-        }
+      
+
+
     
     }
 }

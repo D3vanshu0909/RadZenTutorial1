@@ -2,15 +2,30 @@
 @page "/login"
 
 <PageTitle>Login</PageTitle>
-<RadzenText Text="Login" TextStyle="Radzen.Blazor.TextStyle.H5" class="mb-4" TagName="Radzen.Blazor.TagName.H2" />
-<RadzenRow>
-    <RadzenColumn SizeMD="12">
-        <RadzenTemplateForm Action="@($" account/login?redirectUrl={redirectUrl}")" Data="@("login")"
-            Method="post">
-            <RadzenAlert Shade="Radzen.Shade.Lighter" Variant="Radzen.Variant.Flat" Size="Radzen.AlertSize.Small" AlertStyle="Radzen.AlertStyle.Danger" Visible="@errorVisible">@error</RadzenAlert>
-            <RadzenAlert Shade="Radzen.Shade.Lighter" Variant="Radzen.Variant.Flat" Size="Radzen.AlertSize.Small" AlertStyle="Radzen.AlertStyle.Info" Visible="@infoVisible">@info</RadzenAlert>
-            <RadzenLogin AllowResetPassword="false" AllowRegister="false" FormFieldVariant="Variant.Filled"
-            />
-        </RadzenTemplateForm>
-    </RadzenColumn>
-</RadzenRow>
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6" style="width: 380px">
+                <div class="dialog-box" style="width: 347px; height: 416px">
+                   <RadzenText Text="Login." Style="width: 302px; font-style: normal; text-transform: uppercase; text-decoration: none; font-size: 20px; font-family: 'Comic Sans MS'; text-align: center" />
+                    <RadzenTemplateForm Action="@($" account/login?redirectUrl={redirectUrl}")" Data=@("login") Method="post">
+                        <RadzenAlert Shade="Radzen.Shade.Lighter" Variant="Radzen.Variant.Flat" Size="Radzen.AlertSize.Small" AlertStyle="Radzen.AlertStyle.Danger" Visible="@errorVisible" Style="font-size: 16px; border-radius: 16px;">@error</RadzenAlert>
+                        <RadzenAlert Shade="Radzen.Shade.Lighter" Variant="Radzen.Variant.Flat" Size="Radzen.AlertSize.Small" AlertStyle="Radzen.AlertStyle.Info" Visible="@infoVisible">@info</RadzenAlert>
+                        <RadzenLogin AllowResetPassword="true" AllowRegister="false" FormFieldVariant="Variant.Outlined" AllowRememberMe="true" RememberMe="false" Visible="true" Style="padding: 25px; width: 100%; height: 200px" AutoComplete="true" />
+                    </RadzenTemplateForm>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .dialog-box {
+        background-color: lightgray;
+        border-radius: 8px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 100%;
+        max-width: 350px;
+    }
+</style>

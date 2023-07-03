@@ -9,7 +9,7 @@ namespace RadZenTutorial1.Models.BlazorEmployees
     public partial class Department
     {
         [Key]
-        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int DepartmentId { get; set; }
 
         public string DepartmentName { get; set; }

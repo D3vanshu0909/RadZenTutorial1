@@ -1,5 +1,5 @@
 @page "/application-users"
-@attribute [Authorize(Roles="Admin")]
+@attribute [Authorize(Roles = "Admin")]
 
 <PageTitle>Users</PageTitle>
 <RadzenStack>
@@ -16,7 +16,7 @@
     <RadzenRow>
         <RadzenColumn SizeMD="12">
             <RadzenAlert Size="AlertSize.Large" Shade="Shade.Light" AlertStyle="AlertStyle.Danger" Variant="Variant.Flat" Title="Cannot delete user" Visible="@errorVisible">@error</RadzenAlert>
-            <RadzenDataGrid @ref="grid0" AllowFiltering="true" AllowPaging="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30}) AllowSorting="true" Data="@users"
+            <RadzenDataGrid @ref="grid0" AllowFiltering="false" AllowPaging="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30}) AllowSorting="true" Data="@users"
                 TItem="RadZenTutorial1.Models.ApplicationUser" RowSelect="@RowSelect">
                 <Columns>
                     <RadzenDataGridColumn TItem="RadZenTutorial1.Models.ApplicationUser" Property="UserName" Title="User Name" />

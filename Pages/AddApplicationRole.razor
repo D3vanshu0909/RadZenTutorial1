@@ -1,13 +1,12 @@
 @page "/add-application-role"
-@attribute [Authorize(Roles="Admin")]
-
+@attribute [Authorize(Roles = "Admin")]
 <RadzenRow>
     <RadzenColumn SizeMD="12">
         <RadzenTemplateForm TItem="RadZenTutorial1.Models.ApplicationRole" Data="@role" Visible="@(role != null)" Submit="@FormSubmit">
             <RadzenAlert Title="Cannot create role" Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">@error</RadzenAlert>
 
             <RadzenStack style="margin-bottom: 1rem;">
-                <RadzenFormField Text="Name" Variant="Variant.Filled">
+                <RadzenFormField Text="Name" Variant="Variant.Outlined">
                     <ChildContent>
                         <RadzenTextBox style="width: 100%" @bind-Value="@(role.Name)" Name="Name" />
                     </ChildContent>

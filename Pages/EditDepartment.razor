@@ -1,30 +1,13 @@
-@page "/edit-department/{DepartmentId:int}"
+@page "/edit-department"
 
 @attribute [Authorize(Roles="Admin")]
-@inject IJSRuntime JSRuntime
-@inject NavigationManager NavigationManager
-@inject DialogService DialogService
-@inject ContextMenuService ContextMenuService
-@inject TooltipService TooltipService
-@inject NotificationService NotificationService
-
-@inject BlazorEmployeesService BlazorEmployeesService
-
 <PageTitle>Edit Department</PageTitle>
 
     <RadzenColumn SizeMD=12>
         <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save Department</RadzenAlert>
         <RadzenTemplateForm TItem="RadZenTutorial1.Models.BlazorEmployees.Department" Data="@department" Visible="@(department != null)" Submit="@FormSubmit">
           <RadzenStack>
-            <RadzenFormField Text="Department Id" Variant="Variant.Filled">
-                  <ChildContent>
-                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@department.DepartmentId" Name="DepartmentId" />
-                  </ChildContent>    
-                  <Helper>
-                    <RadzenRequiredValidator Component="DepartmentId" Text="DepartmentId is required" />
-                  </Helper>
-            </RadzenFormField>
-            <RadzenFormField Text="Department Name" Variant="Variant.Filled">
+            <RadzenFormField Text="Department Name" Variant="Variant.Outlined">
                   <ChildContent>
                     <RadzenTextBox style="display: block; width: 100%" @bind-Value="@department.DepartmentName" Name="DepartmentName" />
               </ChildContent>
@@ -37,33 +20,3 @@
         </RadzenTemplateForm>
     </RadzenColumn>
 
-@code {
-
-    [Parameter]
-    public int DepartmentId { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        department = await BlazorEmployeesService.GetDepartmentByDepartmentId(DepartmentId);
-    }
-    protected bool errorVisible;
-    protected RadZenTutorial1.Models.BlazorEmployees.Department department;
-
-    protected async Task FormSubmit()
-    {
-        try
-        {
-            await BlazorEmployeesService.UpdateDepartment(DepartmentId, department);
-            NavigationManager.NavigateTo("departments");
-        }
-        catch (Exception ex)
-        {
-            errorVisible = true;
-        }
-    }
-
-    protected async Task CancelButtonClick(MouseEventArgs args)
-    {
-        NavigationManager.NavigateTo("departments");
-    }
-}

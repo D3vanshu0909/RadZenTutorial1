@@ -1,5 +1,5 @@
 @page "/edit-application-user/{Id}"
-@attribute [Authorize(Roles="Admin")]
+@attribute [Authorize(Roles = "Admin")]
 
 <RadzenRow>
     <RadzenColumn SizeMD="12">
@@ -7,22 +7,22 @@
             <RadzenAlert Title="Cannot update user" Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">@error</RadzenAlert>
 
             <RadzenStack style="margin-bottom: 1rem;">
-                <RadzenFormField Text="User name" Variant="Variant.Filled">
+                <RadzenFormField Text="User name" Variant="Variant.Outlined">
                     <ChildContent>
                         <RadzenTextBox Disabled="true" style="width: 100%" @bind-Value="@(user.UserName)" Name="UserName" />
                     </ChildContent>
                 </RadzenFormField>
-                <RadzenFormField Text="Email" Variant="Variant.Filled">
+                <RadzenFormField Text="Email" Variant="Variant.Outlined">
                     <ChildContent>
                         <RadzenTextBox style="width: 100%" @bind-Value="@(user.Email)" Name="Email" />
                     </ChildContent>
                 </RadzenFormField>
-                <RadzenFormField Text="Roles" Variant="Variant.Filled">
+                <RadzenFormField Text="Roles" Variant="Variant.Outlined">
                     <ChildContent>
                         <RadzenDropDown Data="@roles" Multiple="true" style="width: 100%" TextProperty="Name" @bind-Value="@(userRoles)" ValueProperty="Id" Name="Roles" />
                     </ChildContent>
                 </RadzenFormField>
-                <RadzenFormField Text="Password" Variant="Variant.Filled">
+                <RadzenFormField Text="Password" Variant="Variant.Outlined">
                     <ChildContent>
                         <RadzenPassword @bind-Value="@(user.Password)" style="display: block; width: 100%" Name="Password" />
                     </ChildContent>
@@ -30,7 +30,7 @@
                         <RadzenRequiredValidator Component="Password" Text="Password is required" />
                     </Helper>
                 </RadzenFormField>
-                <RadzenFormField Text="Confirm Password" Variant="Variant.Filled">
+                <RadzenFormField Text="Confirm Password" Variant="Variant.Outlined">
                     <ChildContent>
                         <RadzenPassword style="display: block; width: 100%" @bind-Value="@(user.ConfirmPassword)" Name="ConfirmPassword" />
                     </ChildContent>

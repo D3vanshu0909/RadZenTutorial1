@@ -1,30 +1,13 @@
-@page "/edit-employee/{EmployeeId:int}"
+@page "/edit-employee"
 
-@attribute [Authorize(Roles="Admin")]
-@inject IJSRuntime JSRuntime
-@inject NavigationManager NavigationManager
-@inject DialogService DialogService
-@inject ContextMenuService ContextMenuService
-@inject TooltipService TooltipService
-@inject NotificationService NotificationService
-
-@inject BlazorEmployeesService BlazorEmployeesService
-
+@attribute [Authorize(Roles = "Admin")]
 <PageTitle>Edit Employee</PageTitle>
 
     <RadzenColumn SizeMD=12>
         <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save Employee</RadzenAlert>
         <RadzenTemplateForm TItem="RadZenTutorial1.Models.BlazorEmployees.Employee" Data="@employee" Visible="@(employee != null)" Submit="@FormSubmit">
           <RadzenStack>
-            <RadzenFormField Text="Employee Id" Variant="Variant.Filled">
-                  <ChildContent>
-                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@employee.EmployeeId" Name="EmployeeId" />
-                  </ChildContent>    
-                  <Helper>
-                    <RadzenRequiredValidator Component="EmployeeId" Text="EmployeeId is required" />
-                  </Helper>
-            </RadzenFormField>
-            <RadzenFormField Text="First Name" Variant="Variant.Filled">
+            <RadzenFormField Text="First Name" Variant="Variant.Outlined">
                   <ChildContent>
                     <RadzenTextBox style="display: block; width: 100%" @bind-Value="@employee.FirstName" Name="FirstName" />
                   </ChildContent>    
@@ -32,7 +15,7 @@
                     <RadzenRequiredValidator Component="FirstName" Text="FirstName is required" />
                   </Helper>
             </RadzenFormField>
-            <RadzenFormField Text="Last Name" Variant="Variant.Filled">
+            <RadzenFormField Text="Last Name" Variant="Variant.Outlined">
                   <ChildContent>
                     <RadzenTextBox style="display: block; width: 100%" @bind-Value="@employee.LastName" Name="LastName" />
                   </ChildContent>    
@@ -40,12 +23,12 @@
                     <RadzenRequiredValidator Component="LastName" Text="LastName is required" />
                   </Helper>
             </RadzenFormField>
-            <RadzenFormField Text="Email" Variant="Variant.Filled">
+            <RadzenFormField Text="Email" Variant="Variant.Outlined">
                   <ChildContent>
                     <RadzenTextBox style="display: block; width: 100%" @bind-Value="@employee.Email" Name="Email" />
               </ChildContent>
             </RadzenFormField>
-            <RadzenFormField Text="Date Of Birth" Variant="Variant.Filled">
+            <RadzenFormField Text="Date Of Birth" Variant="Variant.Outlined">
                   <ChildContent>
                     <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@employee.DateOfBirth" Name="DateOfBirth" />
                   </ChildContent>    
@@ -53,22 +36,9 @@
                     <RadzenRequiredValidator Component="DateOfBirth" Text="DateOfBirth is required" />
                   </Helper>
             </RadzenFormField>
-            <RadzenFormField Text="Gender" Variant="Variant.Filled">
+            <RadzenFormField Text="Department" Variant="Variant.Outlined">
                   <ChildContent>
-                    <RadzenNumeric style="display: block; width: 100%" @bind-Value="@employee.Gender" Name="Gender" />
-                  </ChildContent>    
-                  <Helper>
-                    <RadzenRequiredValidator Component="Gender" Text="Gender is required" />
-                  </Helper>
-            </RadzenFormField>
-            <RadzenFormField Text="Photo Path" Variant="Variant.Filled">
-                  <ChildContent>
-                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@employee.PhotoPath" Name="PhotoPath" />
-              </ChildContent>
-            </RadzenFormField>
-            <RadzenFormField Text="Department" Variant="Variant.Filled">
-                  <ChildContent>
-                    <RadzenDropDown Data="@departmentsForDepartmentId" TextProperty="DepartmentName" ValueProperty="DepartmentId" AllowClear=true
+                    <RadzenDropDownDataGrid Data="@departmentsForDepartmentId" TextProperty="DepartmentName" ValueProperty="DepartmentId" AllowClear=true
                           style="display: block; width: 100%" @bind-Value="@employee.DepartmentId" Name="DepartmentId"
                            />
               </ChildContent>
@@ -81,37 +51,3 @@
         </RadzenTemplateForm>
     </RadzenColumn>
 
-@code {
-
-    [Parameter]
-    public int EmployeeId { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        employee = await BlazorEmployeesService.GetEmployeeByEmployeeId(EmployeeId);
-
-        departmentsForDepartmentId = await BlazorEmployeesService.GetDepartments();
-    }
-    protected bool errorVisible;
-    protected RadZenTutorial1.Models.BlazorEmployees.Employee employee;
-
-    protected IEnumerable<RadZenTutorial1.Models.BlazorEmployees.Department> departmentsForDepartmentId;
-
-    protected async Task FormSubmit()
-    {
-        try
-        {
-            await BlazorEmployeesService.UpdateEmployee(EmployeeId, employee);
-            NavigationManager.NavigateTo("employees");
-        }
-        catch (Exception ex)
-        {
-            errorVisible = true;
-        }
-    }
-
-    protected async Task CancelButtonClick(MouseEventArgs args)
-    {
-        NavigationManager.NavigateTo("employees");
-    }
-}

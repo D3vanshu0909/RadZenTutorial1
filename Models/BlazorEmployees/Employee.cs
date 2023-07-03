@@ -9,7 +9,7 @@ namespace RadZenTutorial1.Models.BlazorEmployees
     public partial class Employee
     {
         [Key]
-        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int EmployeeId { get; set; }
 
         [Required]
@@ -25,12 +25,7 @@ namespace RadZenTutorial1.Models.BlazorEmployees
         public DateTime DateOfBirth { get; set; }
 
         [Required]
-        public int Gender { get; set; }
-
-        [Required]
         public int DepartmentId { get; set; }
-
-        public string PhotoPath { get; set; }
 
         public Department Department { get; set; }
 

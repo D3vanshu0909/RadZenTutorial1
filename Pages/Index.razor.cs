@@ -34,5 +34,8 @@ namespace RadZenTutorial1.Pages
 
         [Inject]
         protected SecurityService Security { get; set; }
+
+
+        
     }
 }
