@@ -65,6 +65,9 @@ namespace RadZenTutorial1.Pages
             {
                 errorVisible = true;
                 error = ex.Message;
+
+
+                   
             }
         }
     }
